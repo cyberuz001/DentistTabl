@@ -111,7 +111,7 @@
                             <td class="py-2 px-4 border-b">${task.type}</td>
                             <td class="py-2 px-4 border-b">${task.color}</td>
                             <td class="py-2 px-4 border-b">
-                                ${status === 'incomplete' ? `<button  class="bg-blue-500 text-white px-2 py-2 rounded" onclick="completeTask('${task.name}')">Bajarildi</button>` : ''}
+                                ${status === 'incomplete' ? `<button class="bg-blue-500 text-white px-2 py-2 rounded" onclick="completeTask('${task.name}')">Bajarildi</button>` : ''}
                                 <button class="bg-red-600 text-white px-2 py-2 rounded" onclick="deleteTask('${task.name}', '${status}')">O'chirish</button>
                             </td>
                         `;
@@ -123,17 +123,17 @@
         }
 
         function addTask(task) {
-            fetch('http://127.0.0.1:8000/tasks', {
+            fetch('http://127.0.0.1:8000/tasks/incomplete', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(task)
+                body: JSON.stringify({ tasks: [task] })
             })
-            .then(response => response.json())
+            .then(response => response.text())  // JSON emas, matn javobni o'qish
             .then(data => {
                 console.log('Muvaffaqiyatli qo\'shildi:', data);
-                fetchTasks('incomplete');
+                fetchTasks('incomplete');  // Qo'shishdan so'ng qayta yuklash
             })
             .catch(error => console.error('Xatolik:', error));
         }
@@ -146,7 +146,7 @@
                 },
                 body: JSON.stringify({ name, status: 'complete' })
             })
-            .then(response => response.json())
+            .then(response => response.text())  // JSON emas, matn javobni o'qish
             .then(data => {
                 console.log('Muvaffaqiyatli bajarildi:', data);
                 fetchTasks('incomplete');
@@ -163,7 +163,7 @@
                 },
                 body: JSON.stringify({ name })
             })
-            .then(response => response.json())
+            .then(response => response.text())  // JSON emas, matn javobni o'qish
             .then(data => {
                 console.log('Muvaffaqiyatli o\'chirildi:', data);
                 fetchTasks(status);
@@ -202,7 +202,7 @@
             tasks.forEach(task => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td class="py-2 px-4  border-b">${task.name}</td>
+                    <td class="py-2 px-4 border-b">${task.name}</td>
                     <td class="py-2 px-4 border-b">${task.family}</td>
                     <td class="py-2 px-4 border-b">${task.formula}</td>
                     <td class="py-2 px-4 border-b">${task.type}</td>
