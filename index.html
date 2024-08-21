@@ -95,7 +95,7 @@
         const completeTasksTable = document.getElementById('complete-tasks').querySelector('tbody');
 
         function fetchTasks(status) {
-            fetch(`http://127.0.0.1:5000/tasks/${status}`)
+            fetch(`http://127.0.0.1:8000/tasks/${status}`)
                 .then(response => response.json())
                 .then(tasks => {
                     const table = status === 'incomplete' ? incompleteTasksTable : completeTasksTable;
@@ -123,7 +123,7 @@
         }
 
         function addTask(task) {
-            fetch('http://127.0.0.1:5000/tasks', {
+            fetch('http://127.0.0.1:8000/tasks', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -139,7 +139,7 @@
         }
 
         function completeTask(name) {
-            fetch('http://127.0.0.1:5000/tasks/incomplete', {
+            fetch('http://127.0.0.1:8000/tasks/incomplete', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json'
@@ -156,7 +156,7 @@
         }
 
         function deleteTask(name, status) {
-            fetch(`http://127.0.0.1:5000/tasks/${status}`, {
+            fetch(`http://127.0.0.1:8000/tasks/${status}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-Type': 'application/json'
@@ -187,7 +187,7 @@
 
         document.getElementById('search-input').addEventListener('input', function(event) {
             const query = event.target.value;
-            fetch(`http://127.0.0.1:5000/tasks/search?query=${query}`)
+            fetch(`http://127.0.0.1:8000/tasks/search?query=${query}`)
                 .then(response => response.json())
                 .then(data => {
                     const { incomplete, complete } = data;
