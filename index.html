@@ -26,7 +26,7 @@
             </div>
             <div class="mb-4">
                 <label for="task-type" class="block text-sm font-medium text-gray-700">Tishning turi</label>
-                <select id="task-type" name="type" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading- px-2" required>
+                <select id="task-type" name="type" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6 px-2" required>
                     <option value="" disabled selected>Tishni tanlang</option>
                     <option value="Sirkonniy">Sirkonniy</option>
                     <option value="Metalokeramika">Metalokeramika</option>
@@ -51,43 +51,47 @@
     </div>
 
     <!-- Bajarilmagan ishlar -->
-    <div id="incomplete-container" class="container mx-auto mt-10 p-4 bg-white rounded shadow overflow-x-auto">
+    <div id="incomplete-container" class="container mx-auto mt-10 p-4 bg-white rounded shadow">
         <h2 class="text-lg font-bold mb-4">Bajarilmagan Ishlar</h2>
-        <table id="incomplete-tasks" class="w-full border border-gray-300 rounded min-w-max">
-            <thead>
-                <tr>
-                    <th class="py-2 px-4 border-b">Ism</th>
-                    <th class="py-2 px-4 border-b">Familiya</th>
-                    <th class="py-2 px-4 border-b">Formula Raqami</th>
-                    <th class="py-2 px-4 border-b">Tishning turi</th>
-                    <th class="py-2 px-4 border-b">Rangi</th>
-                    <th class="py-2 px-4 border-b">Harakat</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Bajarilmagan ishlar shu yerda ko'rsatiladi -->
-            </tbody>
-        </table>
+        <div class="overflow-x-auto">
+            <table id="incomplete-tasks" class="w-full border border-gray-300 rounded">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b">Ism</th>
+                        <th class="py-2 px-4 border-b">Familiya</th>
+                        <th class="py-2 px-4 border-b">Formula Raqami</th>
+                        <th class="py-2 px-4 border-b">Tishning turi</th>
+                        <th class="py-2 px-4 border-b">Rangi</th>
+                        <th class="py-2 px-4 border-b">Harakat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Bajarilmagan ishlar shu yerda ko'rsatiladi -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Bajarilgan ishlar -->
-    <div id="complete-container" class="container mx-auto mt-10 p-4 bg-white rounded shadow overflow-x-auto">
+    <div id="complete-container" class="container mx-auto mt-10 p-4 bg-white rounded shadow">
         <h2 class="text-lg font-bold mb-4">Bajarilgan Ishlar</h2>
-        <table id="complete-tasks" class="w-full border border-gray-300 rounded min-w-max">
-            <thead>
-                <tr>
-                    <th class="py-2 px-4 border-b">Ism</th>
-                    <th class="py-2 px-4 border-b">Familiya</th>
-                    <th class="py-2 px-4 border-b">Formula Raqami</th>
-                    <th class="py-2 px-4 border-b">Tishning turi</th>
-                    <th class="py-2 px-4 border-b">Rangi</th>
-                    <th class="py-2 px-4 border-b">Harakat</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Bajarilgan ishlar shu yerda ko'rsatiladi -->
-            </tbody>
-        </table>
+        <div class="overflow-x-auto">
+            <table id="complete-tasks" class="w-full border border-gray-300 rounded">
+                <thead>
+                    <tr>
+                        <th class="py-2 px-4 border-b">Ism</th>
+                        <th class="py-2 px-4 border-b">Familiya</th>
+                        <th class="py-2 px-4 border-b">Formula Raqami</th>
+                        <th class="py-2 px-4 border-b">Tishning turi</th>
+                        <th class="py-2 px-4 border-b">Rangi</th>
+                        <th class="py-2 px-4 border-b">Harakat</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Bajarilgan ishlar shu yerda ko'rsatiladi -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
@@ -174,35 +178,31 @@
         document.getElementById('task-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const name = document.getElementById('name').value;
-            const family = document.getElementById('family').value;
-            const formula = document.getElementById('formula').value;
-            const type = document.getElementById('task-type').value;
-            const color = document.getElementById('color').value;
-
-            const task = { name, family, formula, type, color };
+            const task = {
+                name: document.getElementById('name').value,
+                family: document.getElementById('family').value,
+                formula: document.getElementById('formula').value,
+                type: document.getElementById('task-type').value,
+                color: document.getElementById('color').value,
+            };
 
             addTask(task);
-
-            document.getElementById('task-form').reset();
+            this.reset();
         });
 
         document.getElementById('search-input').addEventListener('input', function(event) {
-            const searchValue = event.target.value.toLowerCase();
-            const allTasks = [...incompleteTasksTable.querySelectorAll('tr'), ...completeTasksTable.querySelectorAll('tr')];
+            const searchText = event.target.value.toLowerCase();
+            const allTasks = [...incompleteTasksTable.rows, ...completeTasksTable.rows];
 
             allTasks.forEach(row => {
-                const taskName = row.querySelector('td:first-child').textContent.toLowerCase();
-                if (taskName.includes(searchValue)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
+                const taskText = row.innerText.toLowerCase();
+                row.style.display = taskText.includes(searchText) ? '' : 'none';
             });
         });
 
         fetchTasks('incomplete');
         fetchTasks('complete');
     </script>
+
 </body>
 </html>
