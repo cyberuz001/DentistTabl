@@ -2,6 +2,13 @@ const incompleteTasksTable = document.getElementById('incomplete-tasks').querySe
 const completeTasksTable = document.getElementById('complete-tasks').querySelector('tbody');
 const searchInput = document.getElementById('search-input');
 
+// Preloaderni 8 soniya ko'rsatish va keyin yashirish
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        document.getElementById('preloader').style.display = 'none';
+    }, 5000); // 5 soniya
+});
+
 function fetchTasks(status) {
     fetch(`http://127.0.0.1:8000/tasks/${status}`)
         .then(response => response.json())
@@ -67,8 +74,9 @@ function deleteTask(id, status) {
     .catch(error => console.error('Xatolik:', error));
 }
 
-document.getElementById('task-form').addEventListener('submit', function(event) {
+document.getElementById('task-form').addEventListener('submit', (event) => {
     event.preventDefault();
+
     const formData = new FormData(event.target);
     const task = {
         name: formData.get('name'),
@@ -77,12 +85,26 @@ document.getElementById('task-form').addEventListener('submit', function(event) 
         type: formData.get('type'),
         color: formData.get('color')
     };
+
     addTask(task);
     event.target.reset();
 });
 
+searchInput.addEventListener('input', () => {
+    const searchTerm = searchInput.value.toLowerCase();
+    const rows = document.querySelectorAll('#incomplete-tasks tbody tr, #complete-tasks tbody tr');
+
+    rows.forEach(row => {
+        const cells = row.querySelectorAll('td');
+        const matches = Array.from(cells).some(cell => cell.textContent.toLowerCase().includes(searchTerm));
+
+        row.style.display = matches ? '' : 'none';
+    });
+});
+
 function createTaskRow(task, status) {
     const row = document.createElement('tr');
+
     row.innerHTML = `
         <td class="py-2 px-4 border-b">${task.name}</td>
         <td class="py-2 px-4 border-b">${task.family}</td>
@@ -90,22 +112,14 @@ function createTaskRow(task, status) {
         <td class="py-2 px-4 border-b">${task.type}</td>
         <td class="py-2 px-4 border-b">${task.color}</td>
         <td class="py-2 px-4 border-b">
-            ${status === 'incomplete' ? `<button onclick="completeTask(${task.id})" class="bg-green-500 text-white px-2 py-1 rounded">Bajarilgan</button>` : ''}
+            ${status === 'incomplete' ? `<button onclick="completeTask(${task.id})" class="bg-green-500 text-white px-2 py-1 rounded">Bajarildi</button>` : ''}
             <button onclick="deleteTask(${task.id}, '${status}')" class="bg-red-500 text-white px-2 py-1 rounded">O'chirish</button>
         </td>
     `;
+
     return row;
 }
 
-searchInput.addEventListener('input', function(event) {
-    const query = event.target.value.toLowerCase();
-    const allRows = document.querySelectorAll('#incomplete-tasks tbody tr, #complete-tasks tbody tr');
-
-    allRows.forEach(row => {
-        const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(query) ? '' : 'none';
-    });
-});
-
+// Ishlarni dastlab yuklash
 fetchTasks('incomplete');
 fetchTasks('complete');
