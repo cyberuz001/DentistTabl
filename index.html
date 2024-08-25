@@ -53,175 +53,44 @@
     <!-- Bajarilmagan ishlar -->
     <div id="incomplete-container" class="container mx-auto mt-10 p-4 bg-white rounded shadow">
         <h2 class="text-lg font-bold mb-4">Bajarilmagan Ishlar</h2>
-        <div class="overflow-x-auto">
-            <table id="incomplete-tasks" class="w-full border border-gray-300 rounded">
-                <thead>
-                    <tr>
-                        <th class="py-2 px-4 border-b">Ism</th>
-                        <th class="py-2 px-4 border-b">Familiya</th>
-                        <th class="py-2 px-4 border-b">Formula Raqami</th>
-                        <th class="py-2 px-4 border-b">Tishning turi</th>
-                        <th class="py-2 px-4 border-b">Rangi</th>
-                        <th class="py-2 px-4 border-b">Harakat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Bajarilmagan ishlar shu yerda ko'rsatiladi -->
-                </tbody>
-            </table>
-        </div>
+        <table id="incomplete-tasks" class="w-full border border-gray-300 rounded">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b">Ism</th>
+                    <th class="py-2 px-4 border-b">Familiya</th>
+                    <th class="py-2 px-4 border-b">Formula Raqami</th>
+                    <th class="py-2 px-4 border-b">Tishning turi</th>
+                    <th class="py-2 px-4 border-b">Rangi</th>
+                    <th class="py-2 px-4 border-b">Harakat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Bajarilmagan ishlar shu yerda ko'rsatiladi -->
+            </tbody>
+        </table>
     </div>
 
     <!-- Bajarilgan ishlar -->
     <div id="complete-container" class="container mx-auto mt-10 p-4 bg-white rounded shadow">
         <h2 class="text-lg font-bold mb-4">Bajarilgan Ishlar</h2>
-        <div class="overflow-x-auto">
-            <table id="complete-tasks" class="w-full border border-gray-300 rounded">
-                <thead>
-                    <tr>
-                        <th class="py-2 px-4 border-b">Ism</th>
-                        <th class="py-2 px-4 border-b">Familiya</th>
-                        <th class="py-2 px-4 border-b">Formula Raqami</th>
-                        <th class="py-2 px-4 border-b">Tishning turi</th>
-                        <th class="py-2 px-4 border-b">Rangi</th>
-                        <th class="py-2 px-4 border-b">Harakat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Bajarilgan ishlar shu yerda ko'rsatiladi -->
-                </tbody>
-            </table>
-        </div>
+        <table id="complete-tasks" class="w-full border border-gray-300 rounded">
+            <thead>
+                <tr>
+                    <th class="py-2 px-4 border-b">Ism</th>
+                    <th class="py-2 px-4 border-b">Familiya</th>
+                    <th class="py-2 px-4 border-b">Formula Raqami</th>
+                    <th class="py-2 px-4 border-b">Tishning turi</th>
+                    <th class="py-2 px-4 border-b">Rangi</th>
+                    <th class="py-2 px-4 border-b">Harakat</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Bajarilgan ishlar shu yerda ko'rsatiladi -->
+            </tbody>
+        </table>
     </div>
 
-    <script>
-        const incompleteTasksTable = document.getElementById('incomplete-tasks').querySelector('tbody');
-        const completeTasksTable = document.getElementById('complete-tasks').querySelector('tbody');
-
-        function fetchTasks(status) {
-            fetch(`http://127.0.0.1:8000/tasks/${status}`)
-                .then(response => response.json())
-                .then(tasks => {
-                    const table = status === 'incomplete' ? incompleteTasksTable : completeTasksTable;
-                    table.innerHTML = '';
-
-                    tasks.forEach(task => {
-                        const row = document.createElement('tr');
-
-                        row.innerHTML = `
-                            <td class="py-2 px-4 border-b">${task.name}</td>
-                            <td class="py-2 px-4 border-b">${task.family}</td>
-                            <td class="py-2 px-4 border-b">${task.formula}</td>
-                            <td class="py-2 px-4 border-b">${task.type}</td>
-                            <td class="py-2 px-4 border-b">${task.color}</td>
-                            <td class="py-2 px-4 border-b">
-                                ${status === 'incomplete' ? `<button class="bg-blue-500 text-white px-2 py-2 rounded" onclick="completeTask('${task.name}')">Bajarildi</button>` : ''}
-                                <button class="bg-red-600 text-white px-2 py-2 rounded" onclick="deleteTask('${task.name}', '${status}')">O'chirish</button>
-                            </td>
-                        `;
-
-                        table.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Xatolik:', error));
-        }
-
-        function addTask(task) {
-            fetch('http://127.0.0.1:8000/tasks/incomplete', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ tasks: [task] })
-            })
-            .then(response => response.text())  // JSON emas, matn javobni o'qish
-            .then(data => {
-                console.log('Muvaffaqiyatli qo\'shildi:', data);
-                fetchTasks('incomplete');  // Qo'shishdan so'ng qayta yuklash
-            })
-            .catch(error => console.error('Xatolik:', error));
-        }
-
-        function completeTask(name) {
-            fetch('http://127.0.0.1:8000/tasks/incomplete', {
-                method: 'PATCH',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name, status: 'complete' })
-            })
-            .then(response => response.text())  // JSON emas, matn javobni o'qish
-            .then(data => {
-                console.log('Muvaffaqiyatli bajarildi:', data);
-                fetchTasks('incomplete');
-                fetchTasks('complete');
-            })
-            .catch(error => console.error('Xatolik:', error));
-        }
-
-        function deleteTask(name, status) {
-            fetch(`http://127.0.0.1:8000/tasks/${status}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ name })
-            })
-            .then(response => response.text())  // JSON emas, matn javobni o'qish
-            .then(data => {
-                console.log('Muvaffaqiyatli o\'chirildi:', data);
-                fetchTasks(status);
-            })
-            .catch(error => console.error('Xatolik:', error));
-        }
-
-        document.getElementById('task-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const task = {
-                name: formData.get('name'),
-                family: formData.get('family'),
-                formula: formData.get('formula'),
-                type: formData.get('type'),
-                color: formData.get('color')
-            };
-            addTask(task);
-            event.target.reset();
-        });
-
-        document.getElementById('search-input').addEventListener('input', function(event) {
-            const query = event.target.value;
-            fetch(`http://127.0.0.1:8000/tasks/search?query=${query}`)
-                .then(response => response.json())
-                .then(data => {
-                    const { incomplete, complete } = data;
-                    updateTable(incompleteTasksTable, incomplete);
-                    updateTable(completeTasksTable, complete);
-                })
-                .catch(error => console.error('Xatolik:', error));
-        });
-
-        function updateTable(table, tasks) {
-            table.innerHTML = '';
-            tasks.forEach(task => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td class="py-2 px-4 border-b">${task.name}</td>
-                    <td class="py-2 px-4 border-b">${task.family}</td>
-                    <td class="py-2 px-4 border-b">${task.formula}</td>
-                    <td class="py-2 px-4 border-b">${task.type}</td>
-                    <td class="py-2 px-4 border-b">${task.color}</td>
-                    <td class="py-2 px-4 border-b">
-                        ${table === incompleteTasksTable ? `<button class="bg-blue-500 text-white px-2 py-2 rounded" onclick="completeTask('${task.name}')">Bajarildi</button>` : ''}
-                        <button class="bg-red-600 text-white px-2 py-2 rounded" onclick="deleteTask('${task.name}', '${table === incompleteTasksTable ? 'incomplete' : 'complete'}')">O'chirish</button>
-                    </td>
-                `;
-                table.appendChild(row);
-            });
-        }
-
-        fetchTasks('incomplete');
-        fetchTasks('complete');
-    </script>
+    <!-- Skriptlar -->
+    <script src="script.js"></script>
 </body>
 </html>
