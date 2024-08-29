@@ -2,11 +2,11 @@ const incompleteTasksTable = document.getElementById('incomplete-tasks').querySe
 const completeTasksTable = document.getElementById('complete-tasks').querySelector('tbody');
 const searchInput = document.getElementById('search-input');
 
-// Preloaderni 8 soniya ko'rsatish va keyin yashirish
+// Preloaderni 5 soniya ko'rsatish va keyin yashirish
 window.addEventListener('load', () => {
     setTimeout(() => {
         document.getElementById('preloader').style.display = 'none';
-    }, 5000); // 5 soniya
+    }, 3000); // 5 soniya
 });
 
 function fetchTasks(status) {
@@ -81,7 +81,10 @@ document.getElementById('task-form').addEventListener('submit', (event) => {
     const task = {
         name: formData.get('name'),
         family: formData.get('family'),
-        formula: formData.get('formula'),
+        formula1: formData.get('formula1'),
+        formula2: formData.get('formula2'),
+        formula3: formData.get('formula3'),
+        formula4: formData.get('formula4'),
         type: formData.get('type'),
         color: formData.get('color')
     };
@@ -108,7 +111,10 @@ function createTaskRow(task, status) {
     row.innerHTML = `
         <td class="py-2 px-4 border-b">${task.name}</td>
         <td class="py-2 px-4 border-b">${task.family}</td>
-        <td class="py-2 px-4 border-b">${task.formula}</td>
+        <td class="py-2 px-4 border-b">${task.formula1}</td>
+        <td class="py-2 px-4 border-b">${task.formula2}</td>
+        <td class="py-2 px-4 border-b">${task.formula3}</td>
+        <td class="py-2 px-4 border-b">${task.formula4}</td>
         <td class="py-2 px-4 border-b">${task.type}</td>
         <td class="py-2 px-4 border-b">${task.color}</td>
         <td class="py-2 px-4 border-b">
