@@ -2,11 +2,11 @@ const incompleteTasksTable = document.getElementById('incomplete-tasks').querySe
 const completeTasksTable = document.getElementById('complete-tasks').querySelector('tbody');
 const searchInput = document.getElementById('search-input');
 
-// Preloaderni 5 soniya ko'rsatish va keyin yashirish
+// Preloaderni 3 soniya ko'rsatish va keyin yashirish
 window.addEventListener('load', () => {
     setTimeout(() => {
         document.getElementById('preloader').style.display = 'none';
-    }, 3000); // 5 soniya
+    }, 3000); // 3 soniya
 });
 
 function fetchTasks(status) {
@@ -25,6 +25,7 @@ function fetchTasks(status) {
 }
 
 function addTask(task) {
+    console.log('Adding task:', task); // Task obyektini tekshirish
     fetch('http://127.0.0.1:8000/tasks/incomplete', {
         method: 'POST',
         headers: {
@@ -88,6 +89,15 @@ document.getElementById('task-form').addEventListener('submit', (event) => {
         type: formData.get('type'),
         color: formData.get('color')
     };
+
+    // Task obyektini konsolga chiqarish
+    console.log('Task object:', task);
+
+    // Barcha maydonlar to'ldirilganligini tekshirish
+    if (Object.values(task).some(value => !value)) {
+        console.error('Barcha maydonlar to\'ldirilgan bo\'lishi kerak');
+        return;
+    }
 
     addTask(task);
     event.target.reset();
