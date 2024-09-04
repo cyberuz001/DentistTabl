@@ -2,17 +2,15 @@ const incompleteTasksTable = document.getElementById('incomplete-tasks').querySe
 const completeTasksTable = document.getElementById('complete-tasks').querySelector('tbody');
 const searchInput = document.getElementById('search-input');
 
-// Preloaderni 3 soniya ko'rsatish va keyin yashirish
+// Preloaderni 5 soniya ko'rsatish va keyin yashirish
 window.addEventListener('load', () => {
     setTimeout(() => {
         document.getElementById('preloader').style.display = 'none';
-    }, 3000); // 3 soniya
+    }, 3000); // 5 soniya
 });
 
-const baseUrl = 'http://83.69.139.168:8000/tasks';
-
 function fetchTasks(status) {
-    fetch(`${baseUrl}/${status}`)
+    fetch(`http://83.69.139.168:8000/tasks/${status}`)
         .then(response => response.json())
         .then(tasks => {
             const table = status === 'incomplete' ? incompleteTasksTable : completeTasksTable;
@@ -27,8 +25,7 @@ function fetchTasks(status) {
 }
 
 function addTask(task) {
-    console.log('Adding task:', task); // Task obyektini tekshirish
-    fetch(`${baseUrl}/incomplete`, {
+    fetch('http://83.69.139.168:8000/tasks/incomplete', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -46,7 +43,7 @@ function addTask(task) {
 }
 
 function completeTask(id) {
-    fetch(`${baseUrl}/complete`, {
+    fetch('http://83.69.139.168:8000/tasks/complete', {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
@@ -63,7 +60,7 @@ function completeTask(id) {
 }
 
 function deleteTask(id, status) {
-    fetch(`${baseUrl}/${id}`, {
+    fetch(`http://83.69.139.168:8000/tasks/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -91,15 +88,6 @@ document.getElementById('task-form').addEventListener('submit', (event) => {
         type: formData.get('type'),
         color: formData.get('color')
     };
-
-    // Task obyektini konsolga chiqarish
-    console.log('Task object:', task);
-
-    // Barcha maydonlar to'ldirilganligini tekshirish
-    if (Object.values(task).some(value => !value)) {
-        console.error('Barcha maydonlar to\'ldirilgan bo\'lishi kerak');
-        return;
-    }
 
     addTask(task);
     event.target.reset();
