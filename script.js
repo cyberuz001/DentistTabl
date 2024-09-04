@@ -10,7 +10,7 @@ window.addEventListener('load', () => {
 });
 
 function fetchTasks(status) {
-    fetch(`http://denistusta.uz:8000/tasks/${status}`)
+    fetch(`https://denistusta.uz:8000/tasks/${status}`)
         .then(response => response.json())
         .then(tasks => {
             const table = status === 'incomplete' ? incompleteTasksTable : completeTasksTable;
@@ -26,7 +26,7 @@ function fetchTasks(status) {
 
 function addTask(task) {
     console.log('Adding task:', task); // Task obyektini tekshirish
-    fetch('http://denistusta.uz:8000/tasks/incomplete', {
+    fetch('https://denistusta.uz:8000/tasks/incomplete', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -44,7 +44,7 @@ function addTask(task) {
 }
 
 function completeTask(id) {
-    fetch('http://denistusta.uz:8000/tasks/complete', {
+    fetch('https://denistusta.uz:8000/tasks/complete', {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
@@ -61,7 +61,7 @@ function completeTask(id) {
 }
 
 function deleteTask(id, status) {
-    fetch(`http://denistusta.uz:8000/tasks/${id}`, {
+    fetch(`https://denistusta.uz:8000/tasks/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
