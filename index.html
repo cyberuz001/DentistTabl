@@ -22,122 +22,154 @@
         #preloader img {
             width: 100px; /* Rasmning o'lchamini sozlash */
         }
+
+        /* Modal uchun stil */
+        #login-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            display: none; /* Modalni boshlanishida yashirish */
+        }
     </style>
 </head>
 <body class="bg-gray-100">
     <!-- Preloader -->
     <div id="preloader">
-        <!-- Preloader rasm manzili -->
-        
-             <img src="8323900-removebg.png" class="animate-bounce " alt="Loading...">
+        <img src="https://i.pinimg.com/736x/06/6a/2c/066a2c8ce3db40ce178bf9f6eaf1fb59.jpg" class="animate-bounce" alt="Loading...">
     </div>
 
-    <!-- Malumot qo'shish oynasi -->
-    <div class="container mx-auto mt-10 p-4 bg-white rounded shadow ">
-        <h1 class="text-xl font-bold mb-4">Malumot Qo'shish</h1>
-        <form id="task-form">
-            <div class="mb-4">
-                <label for="name" class="block text-gray-700">Ism</label>
-                <input type="text" id="name" name="name" class="w-full p-2 border border-gray-300 rounded" required>
-            </div>
-            <div class="mb-4">
-                <label for="family" class="block text-gray-700">Familiya</label>
-                <input type="text" id="family" name="family" class="w-full p-2 border border-gray-300 rounded" required>
-            </div>
-            <div class="mb-4">
-                <label for="formula" class="block text-gray-700">Formula Raqami Tepa chap</label>
-                <input type="text" id="formula1" name="formula1" class="w-full p-2 border border-gray-300 rounded" required>
-            </div>
-            <div class="mb-4">
-                <label for="formula" class="block text-gray-700">Formula Raqami Tepa o'ng</label>
-                <input type="text" id="formula2" name="formula2" class="w-full p-2 border border-gray-300 rounded" required>
-            </div>
-            <div class="mb-4">
-                <label for="formula" class="block text-gray-700">Formula Raqami past chap</label>
-                <input type="text" id="formula3" name="formula3" class="w-full p-2 border border-gray-300 rounded" required>
-            </div>
-            <div class="mb-4">
-                <label for="formula" class="block text-gray-700">Formula Raqami past o'ng</label>
-                <input type="text" id="formula4" name="formula4" class="w-full p-2 border border-gray-300 rounded" required>
-            </div>
-            <div class="mb-4">
-                <label for="task-type" class="block text-sm font-medium text-gray-700">Tishning turi</label>
-                <select id="task-type" name="type" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading- px-2" required>
-                    <option value="" disabled selected>Tishni tanlang</option>
-                    <option value="Sirkonniy">Sirkonniy</option>
-                    <option value="Metalokeramika">Metalokeramika</option>
-                    <option value="Vinir">Vinir</option>
-                    <option value="Implant">Implant</option>
-                    <option value="Shtif">Shtif</option>
-                    <option value="Silniy litoy">Silniy litoy</option>
-                </select>
-            </div>
-            <div class="mb-4">
-                <label for="color" class="block text-gray-700">Rangi</label>
-                <input type="text" id="color" name="color" class="w-full p-2 border border-gray-300 rounded" required>
-            </div>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Qo'shish</button>
-        </form>
-    </div>
-
-    <!-- Qidiruv inputi -->
-    <div class="container mx-auto mt-10 p-4 bg-white rounded shadow">
-        <h1 class="text-xl font-bold mb-4">Qidirish</h1>
-        <input type="text" id="search-input" class="w-full p-2 border border-gray-300 rounded" placeholder="Qidiruv...">
-    </div>
-
-    <!-- Bajarilmagan ishlar -->
-    <div id="incomplete-container" class="container mx-auto mt-10 p-4 bg-white rounded shadow">
-        <h2 class="text-lg font-bold mb-4">Bajarilmagan Ishlar</h2>
-        <div class="overflow-x-auto">
-            <table id="incomplete-tasks" class="w-full border border-gray-300 rounded">
-                <thead>
-                    <tr>
-                        <th class="py-2 px-4 border-b">Ism</th>
-                        <th class="py-2 px-4 border-b">Familiya</th>
-                        <th class="py-2 px-4 border-b">Formula tepa chap</th>
-                        <th class="py-2 px-4 border-b">Formula tepa o'ng</th>
-                        <th class="py-2 px-4 border-b">Formula past chap</th>
-                        <th class="py-2 px-4 border-b">Formula past o'ng</th>
-                        <th class="py-2 px-4 border-b">Tishning turi</th>
-                        <th class="py-2 px-4 border-b">Rangi</th>
-                        <th class="py-2 px-4 border-b">Harakat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Bajarilmagan ishlar shu yerda ko'rsatiladi -->
-                </tbody>
-            </table>
+    <!-- Modal -->
+    <div id="login-modal">
+        <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-sm">
+            <h2 class="text-2xl font-bold mb-4">Login</h2>
+            <form id="login-form">
+                <div class="mb-4">
+                    <label for="username" class="block text-gray-700">Login</label>
+                    <input type="text" id="username" name="username" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="password" class="block text-gray-700">Parol</label>
+                    <input type="password" id="password" name="password" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Kirish</button>
+                <p id="login-error" class="text-red-500 mt-2 hidden">Xato login yoki parol!</p>
+            </form>
         </div>
     </div>
 
-    <!-- Bajarilgan ishlar -->
-    <div id="complete-container" class="container mx-auto mt-10 p-4 bg-white rounded shadow">
-        <h2 class="text-lg font-bold mb-4">Bajarilgan Ishlar</h2>
-        <div class="overflow-x-auto">
-            <table id="complete-tasks" class="w-full border border-gray-300 rounded">
-                <thead>
-                    <tr>
-                        <th class="py-2 px-4 border-b">Ism</th>
-                        <th class="py-2 px-4 border-b">Familiya</th>
-                        <th class="py-2 px-4 border-b">Formula Raqami1</th>
-                        <th class="py-2 px-4 border-b">Formula Raqami2</th>
-                        <th class="py-2 px-4 border-b">Formula Raqami3</th>
-                        <th class="py-2 px-4 border-b">Formula Raqami4</th>
-                        <th class="py-2 px-4 border-b">Tishning turi</th>
-                        <th class="py-2 px-4 border-b">Rangi</th>
-                        <th class="py-2 px-4 border-b">Harakat</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Bajarilgan ishlar shu yerda ko'rsatiladi -->
-                </tbody>
-            </table>
+    <!-- Malumot qo'shish oynasi -->
+    <div id="content" class="hidden">
+        <div class="container mx-auto mt-10 p-4 bg-white rounded shadow">
+            <h1 class="text-xl font-bold mb-4">Malumot Qo'shish</h1>
+            <form id="task-form">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700">Ism</label>
+                    <input type="text" id="name" name="name" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="family" class="block text-gray-700">Familiya</label>
+                    <input type="text" id="family" name="family" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="formula1" class="block text-gray-700">Formula Raqami Tepa chap</label>
+                    <input type="text" id="formula1" name="formula1" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="formula2" class="block text-gray-700">Formula Raqami Tepa o'ng</label>
+                    <input type="text" id="formula2" name="formula2" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="formula3" class="block text-gray-700">Formula Raqami past chap</label>
+                    <input type="text" id="formula3" name="formula3" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="formula4" class="block text-gray-700">Formula Raqami past o'ng</label>
+                    <input type="text" id="formula4" name="formula4" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <div class="mb-4">
+                    <label for="task-type" class="block text-sm font-medium text-gray-700">Tishning turi</label>
+                    <select id="task-type" name="type" class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading- px-2" required>
+                        <option value="" disabled selected>Tishni tanlang</option>
+                        <option value="Sirkonniy">Sirkonniy</option>
+                        <option value="Metalokeramika">Metalokeramika</option>
+                        <option value="Vinir">Vinir</option>
+                        <option value="Implant">Implant</option>
+                        <option value="Shtif">Shtif</option>
+                        <option value="Silniy litoy">Silniy litoy</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="color" class="block text-gray-700">Rangi</label>
+                    <input type="text" id="color" name="color" class="w-full p-2 border border-gray-300 rounded" required>
+                </div>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Qo'shish</button>
+            </form>
+        </div>
+
+        <!-- Qidiruv inputi -->
+        <div class="container mx-auto mt-10 p-4 bg-white rounded shadow">
+            <h1 class="text-xl font-bold mb-4">Qidirish</h1>
+            <input type="text" id="search-input" class="w-full p-2 border border-gray-300 rounded" placeholder="Qidiruv...">
+        </div>
+
+        <!-- Bajarilmagan ishlar -->
+        <div id="incomplete-container" class="container mx-auto mt-10 p-4 bg-white rounded shadow">
+            <h2 class="text-lg font-bold mb-4">Bajarilmagan Ishlar</h2>
+            <div class="overflow-x-auto">
+                <table id="incomplete-tasks" class="w-full border border-gray-300 rounded">
+                    <thead>
+                        <tr>
+                            <th class="py-2 px-4 border-b">Ism</th>
+                            <th class="py-2 px-4 border-b">Familiya</th>
+                            <th class="py-2 px-4 border-b">Formula tepa chap</th>
+                            <th class="py-2 px-4 border-b">Formula tepa o'ng</th>
+                            <th class="py-2 px-4 border-b">Formula past chap</th>
+                            <th class="py-2 px-4 border-b">Formula past o'ng</th>
+                            <th class="py-2 px-4 border-b">Tishning turi</th>
+                            <th class="py-2 px-4 border-b">Rangi</th>
+                            <th class="py-2 px-4 border-b">Harakat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Bajarilmagan ishlar shu yerda ko'rsatiladi -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Bajarilgan ishlar -->
+        <div id="complete-container" class="container mx-auto mt-10 p-4 bg-white rounded shadow">
+            <h2 class="text-lg font-bold mb-4">Bajarilgan Ishlar</h2>
+            <div class="overflow-x-auto">
+                <table id="complete-tasks" class="w-full border border-gray-300 rounded">
+                    <thead>
+                        <tr>
+                            <th class="py-2 px-4 border-b">Ism</th>
+                            <th class="py-2 px-4 border-b">Familiya</th>
+                            <th class="py-2 px-4 border-b">Formula Raqami1</th>
+                            <th class="py-2 px-4 border-b">Formula Raqami2</th>
+                            <th class="py-2 px-4 border-b">Formula Raqami3</th>
+                            <th class="py-2 px-4 border-b">Formula Raqami4</th>
+                            <th class="py-2 px-4 border-b">Tishning turi</th>
+                            <th class="py-2 px-4 border-b">Rangi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Bajarilgan ishlar shu yerda ko'rsatiladi -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <!-- Skriptlar -->
     <script src="script.js"></script>
-    
 </body>
 </html>
