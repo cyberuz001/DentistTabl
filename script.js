@@ -1,16 +1,49 @@
 const incompleteTasksTable = document.getElementById('incomplete-tasks').querySelector('tbody');
 const completeTasksTable = document.getElementById('complete-tasks').querySelector('tbody');
 const searchInput = document.getElementById('search-input');
+const loginModal = document.getElementById('login-modal');
+const loginForm = document.getElementById('login-form');
+const loginError = document.getElementById('login-error');
+const content = document.getElementById('content');
 
-// Preloaderni 5 soniya ko'rsatish va keyin yashirish
+const baseURL = 'http://83.69.139.168:8000/tasks';
+
+// Preloaderni 3 soniya ko'rsatish va keyin yashirish
 window.addEventListener('load', () => {
     setTimeout(() => {
         document.getElementById('preloader').style.display = 'none';
-    }, 3000); // 5 soniya
+        loginModal.style.display = 'flex'; // Modalni ko'rsatish
+    }, 3000); // 3 soniya
+});
+
+// Login va parollarni tekshirish uchun ro'yxat
+const validCredentials = [
+    { username: 'axmadjon9612', password: '01234' },
+    { username: 'user', password: '01234' },
+    { username: 'user1', password: '01234' }
+];
+
+loginForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
+
+    const isValid = validCredentials.some(cred => cred.username === username && cred.password === password);
+
+    if (isValid) {
+        loginModal.style.display = 'none'; // Modalni yopish
+        content.style.display = 'block'; // Asosiy sahifani ko'rsatish
+        fetchTasks('incomplete');
+        fetchTasks('complete');
+    } else {
+        loginError.classList.remove('hidden'); // Xato xabarni ko‘rsatish
+        loginModal.style.display = 'flex'; // Modalni qayta ko'rsatish
+    }
 });
 
 function fetchTasks(status) {
-    fetch(`http://83.69.139.168:8000/tasks/${status}`)
+    fetch(`${baseURL}/${status}`)
         .then(response => response.json())
         .then(tasks => {
             const table = status === 'incomplete' ? incompleteTasksTable : completeTasksTable;
@@ -25,7 +58,7 @@ function fetchTasks(status) {
 }
 
 function addTask(task) {
-    fetch('http://83.69.139.168:8000/tasks/incomplete', {
+    fetch(`${baseURL}/incomplete`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -43,7 +76,7 @@ function addTask(task) {
 }
 
 function completeTask(id) {
-    fetch('http://83.69.139.168:8000/tasks/complete', {
+    fetch(`${baseURL}/complete`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
@@ -60,7 +93,7 @@ function completeTask(id) {
 }
 
 function deleteTask(id, status) {
-    fetch(`http://83.69.139.168:8000/tasks/${id}`, {
+    fetch(`${baseURL}/${id}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
